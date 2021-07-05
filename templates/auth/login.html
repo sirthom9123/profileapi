@@ -1,0 +1,47 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="container-min-full-height d-flex justify-content-center align-items-center">
+    <div class="login-center">
+        <div class="navbar-header text-center mt-2 mb-4">
+            <a href="#">
+                <img alt="" src="assets/img/logo-light.png" alt="logo">
+            </a>
+        </div>
+        <!-- /.navbar-header -->
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            {% include 'includes/messages.html' %}
+            <div class="form-group">
+                {{form|crispy}}
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block btn-lg btn-primary text-uppercase fs-12 fw-600"
+                    type="submit">Login</button>
+            </div>
+            <div class="form-group no-gutters mb-0">
+                <div class="col-md-12 d-flex">
+                    <div class="checkbox checkbox-primary mr-auto mr-0-rtl ml-auto-rtl">
+                        <label class="d-flex">
+                            <input type="checkbox"> <span class="label-text">Remember me</span>
+                        </label>
+                    </div><a href="" id="to-recover" class="my-auto pb-2 text-right"><i
+                            class="material-icons mr-2 fs-18">lock</i> Forgot Password?</a>
+                </div>
+                <!-- /.col-md-12 -->
+            </div>
+            <!-- /.form-group -->
+        </form>
+        <!-- /.form-material -->
+        <footer class="col-sm-12 text-center">
+            <hr>
+            <p>Don't have an account? <a href="" class="text-primary m-l-5"><b>Sign Up</b></a>
+            </p>
+        </footer>
+    </div>
+    <!-- /.login-center -->
+</div>
+<!-- /.d-flex -->
+{% endblock %}

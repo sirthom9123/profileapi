@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+{% load static %}
+{% load mapbox_location_field_tags %}
+{% location_field_includes %}
+{% include_jquery %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <title>{% block title %} {% endblock %}</title>
+
+  <!-- favicon -->
+  <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" />
+
+
+  <!-- Bootstrap CSS -->
+  <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'vendors/material-icons/material-icons.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'vendors/mono-social-icons/monosocialiconsfont.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'vendors/feather-icons/feather.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- CDN Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/css/perfect-scrollbar.min.css"
+    rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jqvmap.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet"
+    type="text/css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/style.css'%}" rel="stylesheet" />
+
+  <script src="{% static 'js/modernizr.min.js' %}"></script>
+  <script data-pace-options='{ "ajax": false, "selectors": [ "img" ]}' src="{% static 'js/pace.min.js' %}"></script>
+
+  {% block scripts %} {% endblock scripts %}
+</head>
+
+<body class="sidebar-light sidebar-expand navbar-brand-dark">
+  <div id="wrapper" class="wrapper">
+    <!-- HEADER & TOP NAVIGATION -->
+    <nav class="navbar">
+      <div class="container-fluid px-0 align-items-stretch">
+        <!-- Logo Area -->
+        <div class="navbar-header">
+          <a href="#" class="navbar-brand">
+            <img class="logo-expand" alt="logo" src="">
+            <img class="logo-collapse" alt="logo" src="">
+          </a>
+        </div>
+        <!-- /.navbar-header -->
+        <!-- Left Menu & Sidebar Toggle -->
+        <ul class="nav navbar-nav">
+          <li class="sidebar-toggle dropdown"><a href="javascript:void(0)" class="ripple"><i
+                class="material-icons list-icon md-24">menu</i></a>
+          </li>
+        </ul>
+        <!-- /.navbar-left -->
+        <!-- Search Form -->
+        <form class="navbar-search d-none d-sm-block" role="search"><i class="material-icons list-icon">search</i>
+          <input type="search" class="search-query" placeholder="Search anything..."> <a href="javascript:void(0);"
+            class="remove-focus"><i class="material-icons md-24">close</i></a>
+        </form>
+        <!-- /.navbar-search -->
+        <div class="spacer"></div>
+        <!-- User Image with Dropdown -->
+        <ul class="nav navbar-nav">
+          <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle dropdown-toggle-user ripple"
+              data-toggle="dropdown"><span class="avatar thumb-xs2"><img src="{{request.user.avatar.thumbnail.url}}"
+                  class="rounded-circle" alt="Avatar"> <i class="material-icons list-icon">expand_more</i></span></a>
+            <div class="dropdown-menu dropdown-left dropdown-card dropdown-card-profile animated flipInY">
+              <div class="card">
+                <ul class="list-unstyled card-body">
+                  <li><a href="{% url 'profile' %}"><span><span class="align-middle">Manage
+                          Account</span></span></a>
+                  </li>
+                  <li><a href="/"><span><span class="align-middle">Change
+                          Password</span></span></a>
+                  </li>
+                  <li>
+                    <form action="{% url 'logout' %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-ouline-default btn-rounded align-middle"><span><span>Sign
+                            Out</span></span></button>
+                    </form>
+                  </li>
+                </ul>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <!-- /.dropdown-card-profile -->
+          </li>
+          <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-nav -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+    <!-- /.navbar -->
+
+    <div class="content-wrapper">
+
+      <main class="main-wrapper clearfix">
+        {% block content %} {% endblock %}
+      </main>
+    </div>
+    {% include 'includes/footer.html' %}
+  </div>
+
+  <!-- Vendors -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.9/metisMenu.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.4.0/perfect-scrollbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.9.2/countUp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/jquery.vmap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqvmap/1.5.1/maps/jquery.vmap.usa.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/template.js' %}" defer></script>
+  <script src="{% static 'js/custom.js' %}" defer></script>
+
+  {% block javascript %} {% endblock javascript %}
+</body>
+
+</html>

@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}My Profile {{request.user}}{% endblock %}
+
+{% block content %}
+<!-- Modal -->
+<div class="modal modal-blue fade bs-modal-lg-blue" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Profile Credentials</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <div id="alert-box">
+                    <form action="{% url 'profile_form' %}" method="POST" id="profile-form"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">{{profile_form|crispy}}</div>
+                        <div class="form-group">{{location_form.media}}
+                            {{location_form|crispy}}</div>
+                        <div class="form-group">
+                            {{avatar_form|crispy}}
+                        </div>
+                        <div class="text-center mr-b-30">
+                            <button class="btn btn-rounded btn-success ripple" type="submit">Save</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+<div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row page-title clearfix">
+            <div class="page-title-left">
+                <h6 class="page-title-heading mr-0 mr-r-5">Profile</h6>
+            </div>
+            <!-- /.page-title-left -->
+            <div class="page-title-right d-none d-sm-inline-flex">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">My Profile</a>
+                    </li>
+                </ol>
+            </div>
+            <!-- /.page-title-right -->
+        </div>
+        <!-- /.page-title -->
+    </div>
+    {% include 'includes/messages.html' %}
+    <div class="container-fluid">
+        <div class="widget-list">
+            <div class="row">
+                <!-- User Summary -->
+                <div class="col-12 col-md-4 widget-holder widget-full-content">
+                    <div class="widget-bg">
+                        <div class="widget-body clearfix">
+                            <div class="widget-user-profile">
+                                <figure class="profile-wall-img">
+                                    <img src="{% static 'media/user-widget-bg.jpg' %}" alt="User Wall">
+                                </figure>
+                                <div class="profile-body">
+                                    <figure class="profile-user-avatar thumb-md">
+                                        <img src="{{avatar.medium.url}}"
+                                            alt="{{profile.first_name}} {{profile.last_name}}">
+                                    </figure>
+
+                                    <hr class="profile-seperator">
+                                    <div class="mb-5"><a href="#" data-bs-toggle="modal" data-bs-target="#profileModal"
+                                            class="btn btn-outline-primary btn-rounded btn-lg px-5 border-thick text-uppercase mr-2 mr-0-rtl ml-2-rtl fw-700 fs-11 heading-font-family">Edit
+                                            Profile</a>
+                                    </div>
+                                </div>
+                                <!-- /.d-flex -->
+                            </div>
+                            <!-- /.widget-user-profile -->
+                        </div>
+                        <!-- /.widget-body -->
+                    </div>
+                    <!-- /.widget-bg -->
+                </div>
+                <!-- /.widget-holder -->
+                <div class="col-12 col-md-8 mr-b-30">
+                    <ul class="nav nav-tabs contact-details-tab">
+                        <li class="nav-item"><a href="#activity-tab-bordered-1" class="nav-link active"
+                                data-toggle="tab">Profile</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="profile-tab-bordered-1">
+                            <div class="contact-details-profile">
+                                <h5 class="mr-b-20">Personal Profile</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small class="heading-font-family fw-500">Full
+                                                name</small>
+                                            <span>{{profile.first_name}} {{profile.last_name}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small
+                                                class="heading-font-family fw-500">Title</small>
+                                            <span>{{profile.title}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small
+                                                class="heading-font-family fw-500">Gender</small>
+                                            <span>{{profile.gender}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small class="heading-font-family fw-500">Date
+                                                Of Birth</small>
+                                            <span>{{profile.dob|date}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small
+                                                class="heading-font-family fw-500">Phone</small>
+                                            <span>{{profile.phone}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small
+                                                class="heading-font-family fw-500">Cell</small>
+                                            <span>{{profile.cell}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                </div>
+                                <!-- /.row -->
+                                <hr>
+                                <h5 class="mr-b-20">Additional Information</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small
+                                                class="heading-font-family fw-500">Address</small>
+                                            <span>{{location.address}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small
+                                                class="heading-font-family fw-500">City</small>
+                                            <span>{{location.city}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small
+                                                class="heading-font-family fw-500">Country</small>
+                                            <span>{{location.country}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                    <div class="col-md-6">
+                                        <div class="contact-details-cell"><small
+                                                class="heading-font-family fw-500">State</small>
+                                            <span>{{location.postal_code}}</span>
+                                        </div>
+                                        <!-- /.contact-details-cell -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.contact-details-profile -->
+                            <hr class="mr-tb-30">
+
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
