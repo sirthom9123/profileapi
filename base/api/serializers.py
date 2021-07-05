@@ -1,8 +1,6 @@
 import uuid
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from rest_auth.registration.serializers import RegisterSerializer
-from allauth.account.adapter import get_adapter
 from rest_framework.authtoken.models import Token
 
 from ..models import *
@@ -14,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('email', 'username', 'password')
 
 
-class CustomRegisterSerializer(RegisterSerializer):
+class CustomRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
@@ -28,13 +26,13 @@ class CustomRegisterSerializer(RegisterSerializer):
             'email': self.validated_data.get('email', ''),
         }
 
-    def save(self, request):
-        adapter = get_adapter()
-        user = adapter.new_user(request)
-        self.cleaned_data = self.get_cleaned_data()
-        user.save()
-        adapter.save_user(request, user, self)
-        return user
+    def save(self, attrs):
+        email = attrs.get('email', '')
+        username = attrs.get('username', '')
+    
+        if not username.isalnum():
+            raise serializers.ValidationError('Username should only contain Alphanumeric characters')
+        return attrs
 
 
 
