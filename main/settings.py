@@ -50,16 +50,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
 
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'corsheaders',
+    'drf_yasg',
     'rest_framework',
     'django_filters',
     'rest_framework.authtoken',
-    'rest_auth',
-    'rest_auth.registration',
     'crispy_forms',
     'mapbox_location_field',
 
@@ -80,9 +74,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-)
 
 ROOT_URLCONF = 'main.urls'
 
@@ -178,26 +169,30 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'NONE_FIELD_ERRORS_KEY': 'error',
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+        ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-}
-
-CSRF_COOKIE_NAME = "csrftoken"
-
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'base.api.serializers.UserSerializer',
-    'TOKEN_SERIALIZER': 'base.api.serializers.TokenSerializer',
-}
-
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'base.api.serializers.CustomRegisterSerializer',
-}
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+        ),
+        # Throttling values increased to accomodate testing, should be decreased for production
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+        'user': '300/hour',
+        'profile': '300/hour',
+        'location': '300/hour',
+        'coordinates': '300/hour',
+        'id': '300/hour',
+        'avatar': '300/hour',
+        },
+    }

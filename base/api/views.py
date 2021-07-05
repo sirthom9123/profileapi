@@ -5,8 +5,8 @@ from rest_framework.reverse import reverse
 from rest_framework import generics, status, views, permissions, viewsets
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.sites.shortcuts import get_current_site
-from django.conf import settings
 from rest_framework_simplejwt.tokens import Token
+from rest_framework.throttling import ScopedRateThrottle
 from django.contrib.auth.models import User
 
 from .serializers import *
@@ -20,6 +20,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ProfileListAPIView(generics.ListCreateAPIView):
+    throttle_scope = 'profile'
+    throttle_classes = (ScopedRateThrottle,)
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     name = 'profile-list'
@@ -38,6 +40,8 @@ class ProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class LocationListAPIView(generics.ListCreateAPIView):
+    throttle_scope = 'location'
+    throttle_classes = (ScopedRateThrottle,)
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
     name = 'location'
@@ -55,6 +59,7 @@ class LocationDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class AvatarListAPIView(generics.ListCreateAPIView):
     throttle_scope = 'avatar'
+    throttle_classes = (ScopedRateThrottle,)
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializer
     name = 'avatars'
@@ -65,7 +70,6 @@ class AvatarListAPIView(generics.ListCreateAPIView):
 
 
 class AvatarDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    throttle_scope = 'avatar'
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializer
     name = 'avatar-detail'
@@ -74,6 +78,8 @@ class AvatarDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class IDListAPIView(generics.ListCreateAPIView):
+    throttle_scope = 'id'
+    throttle_classes = (ScopedRateThrottle,)
     queryset = ID.objects.all()
     serializer_class = IdSerializer
     name = 'id-list'
