@@ -15,19 +15,20 @@ from .forms import AvatarForm, LocationForm, ProfileForm
 def profile_view(request):
     user_obj = request.user
     
-    profile = None
-    location = None
-    avatar = None
-    if user_obj:
+    try:
         profile = Profile.objects.get(owner=user_obj)
         location = Location.objects.get(owner=user_obj)
         avatar = Avatar.objects.get(owner=user_obj)
-        
+    except:    
+        profile = None
+        location = None
+        avatar = None
+
     profile_form = ProfileForm()
     location_form = LocationForm()
     avatar_form = AvatarForm()
 
-
+    print(profile)
     context = {
         'profile': profile, 
         'location': location,
